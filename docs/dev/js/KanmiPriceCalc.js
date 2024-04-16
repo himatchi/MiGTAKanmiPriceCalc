@@ -32,9 +32,9 @@ function createItemTr(item){
   const sum = document.createElement('td');
 
   displayName.innerText = item.displayName;
-  displayName.className = "text-end";
+  displayName.classList.add('text-end');
   price.innerText = `\\${item.price.toLocaleString()}`
-  price.className = "text-end";
+  price.classList.add('text-end');
   const inputMinus10 = document.createElement('input');
   const inputMinus1 = document.createElement('input');
   const inputPlus1 = document.createElement('input');
@@ -77,7 +77,7 @@ function createItemTr(item){
   itemPriceSum.id = `${item.name}-Sum`;
   itemPriceSum.innerText = "\\0"
   sum.appendChild(itemPriceSum);
-  sum.className="text-end";
+  sum.classList.add('text-end');
   tr.appendChild(number);
   tr.appendChild(displayName);
   tr.appendChild(price);
