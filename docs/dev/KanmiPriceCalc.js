@@ -61,11 +61,11 @@ function createItemTr(item){
   const count = document.createElement('td');
   const sum = document.createElement('td');
   number.innerText = "";
-  if (item.number > 0 && item.number <= 6){
+  if (item.number >= 1 && item.number <= 6){
     number.innerText = item.number;
   }
-  displayName.value = item.displayName;
-  price.value = `\\${item.price.toLocaleString}`
+  displayName.innerText = item.displayName;
+  price.innerText = `\\${item.price.toLocaleString()}`
   const inputMinus10 = document.createElement('input');
   const inputMinus1 = document.createElement('input');
   const inputPlus1 = document.createElement('input');
