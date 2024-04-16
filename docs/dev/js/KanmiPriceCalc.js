@@ -35,30 +35,43 @@ function createItemTr(item){
   displayName.classList.add('text-end');
   price.innerText = `\\${item.price.toLocaleString()}`
   price.classList.add('text-end');
-  const inputMinus10 = document.createElement('input');
-  const inputMinus1 = document.createElement('input');
-  const inputPlus1 = document.createElement('input');
-  const inputPlus10 = document.createElement('input');
+  const inputMinus10 = document.createElement('button');
+  const inputMinus1 = document.createElement('button');
+  const inputPlus1 = document.createElement('button');
+  const inputPlus10 = document.createElement('button');
   const inputCount = document.createElement('input');
   inputMinus10.type = "button";
-  inputMinus10.value = "-10";
+  inputMinus10.classList.add('btn');
+  inputMinus10.classList.add('btn-sm');
+  inputMinus10.classList.add('btn-outline-primary');
+  inputMinus10.innerText = '-10';
   inputMinus10.tabIndex = "-1";
   inputMinus10.setAttribute('onclick', `changeCount(${item.name},-10)`)
   inputMinus1.type = "button";
-  inputMinus1.value = "-1";
+  inputMinus1.classList.add('btn');
+  inputMinus1.classList.add('btn-sm');
+  inputMinus1.classList.add('btn-outline-primary');
+  inputMinus1.innerText = '-1';
   inputMinus1.tabIndex = "-1";
   inputMinus1.setAttribute('onclick', `changeCount(${item.name},-1)`)
   inputPlus1.type = "button";
-  inputPlus1.value = "+1";
+  inputPlus1.classList.add('btn');
+  inputPlus1.classList.add('btn-sm');
+  inputPlus1.classList.add('btn-outline-primary');
+  inputPlus1.innerText = '+1';
   inputPlus1.tabIndex = "-1";
   inputPlus1.setAttribute('onclick', `changeCount(${item.name},1)`)
   inputPlus10.type = "button";
-  inputPlus10.value = "+10";
+  inputPlus10.classList.add('btn');
+  inputPlus10.classList.add('btn-sm');
+  inputPlus10.classList.add('btn-outline-primary');
+  inputPlus10.innerText = '+10';
   inputPlus10.tabIndex = "-1";
   inputPlus10.setAttribute('onclick', `changeCount(${item.name},10)`)
   inputCount.type = "number";
   inputCount.value = "0";
   inputCount.classList.add("custom-num-width");
+  inputCount.classList.add('form-control')
   inputCount.id = item.name;
 
   number.innerText = "";
