@@ -1,5 +1,3 @@
-var items = [];
-
 var allSumValue = 0;
 var loaded = false;
 
@@ -13,7 +11,8 @@ function isExpiryValid(expiry) {
   const [expiryYear, expiryMonth] = expiry.split('/').map(Number);
 
   // 有効期限が現在の年月と同じか、それより未来かを判定
-  if (expiryYear > currentYear || (expiryYear === currentYear && expiryMonth >= currentMonth)) {         return true;
+  if (expiryYear > currentYear || (expiryYear === currentYear && expiryMonth >= currentMonth)) {
+    return true;
   } else {
     return false;
   }
@@ -42,6 +41,7 @@ function loadItems(){
     if (xhr.status === 200) {
       // レスポンスをJSONとして解析
       items = JSON.parse(xhr.responseText);
+      console.log(items);
     } else {
       // エラーハンドリング
       console.error('Failed to fetch data:', xhr.statusText);
@@ -59,12 +59,12 @@ function createItemTr(item){
   const price = document.createElement('td');
   const count = document.createElement('td');
   const sum = document.createElement('td');
-  number.value = "";
-  if (item.number > 0 && item.number <= 6){
-    number.value = item.number;
+  number.innerText = "";
+  if (item.number >= 1 && item.number <= 6){
+    number.innerText = item.number;
   }
-  displayName.value = item.displayName;
-  price.value = `\\${item.price.toLocaleString}`
+  displayName.innerText = item.displayName;
+  price.innerText = `\\${item.price.toLocaleString()}`
   const inputMinus10 = document.createElement('input');
   const inputMinus1 = document.createElement('input');
   const inputPlus1 = document.createElement('input');
@@ -98,6 +98,7 @@ function createItemTr(item){
   count.appendChild(inputPlus10);
   const itemPriceSum = document.createElement('span');
   itemPriceSum.id = `${item.name}-Sum`;
+  itemPriceSum.innerText = "\\0"
   sum.appendChild(itemPriceSum);
   tr.appendChild(number);
   tr.appendChild(displayName);
@@ -157,7 +158,7 @@ function copySum(){
   if(loaded){
     navigator.clipboard.writeText(`${allSumValue}`);
   }
-}
+} 
 
 function clearValue(){
   document.getElementById('nyandangoCount').value = 0;
@@ -304,7 +305,6 @@ function tenGachaSupport() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  loadItems();
   const itemTableBody = document.getElementById('itemTableBody');
   items.forEach( (item)=>{
     itemTableBody.appendChild(createItemTr(item));
