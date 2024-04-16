@@ -58,13 +58,13 @@ function createItemTr(item){
   inputPlus10.setAttribute('onclick', `changeCount(${item.name},10)`)
   inputCount.type = "number";
   inputCount.value = "0";
-  inputCount.size = 5;
+  inputCount.classList.add("custom-num-width");
   inputCount.id = item.name;
 
   number.innerText = "";
   if (item.number >= 1 && item.number <= 6){
     number.innerText = item.number;
-    inputCount.className = `gacha-${item.number}`
+    inputCount.classList.add(`gacha-${item.number}`);
   }
 
   inputCount.setAttribute('onchange',"calc()");
