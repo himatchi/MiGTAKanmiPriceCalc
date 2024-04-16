@@ -23,35 +23,6 @@ function changeCount(target, diff){
   calc();
 }
 
-function loadItems(){
-  // JSONファイルのURL
-  const jsonUrl = 'itemList.json';
-
-  // 新しいXMLHttpRequestを作成
-  let xhr = new XMLHttpRequest();
-
-  // 同期的なリクエストの設定 (第三引数にfalseを指定)
-  xhr.open('GET', jsonUrl, false);
-
-  try {
-    // リクエストを送信
-    xhr.send();
-
-    // HTTPステータスコードが200（成功）の場合
-    if (xhr.status === 200) {
-      // レスポンスをJSONとして解析
-      items = JSON.parse(xhr.responseText);
-      console.log(items);
-    } else {
-      // エラーハンドリング
-      console.error('Failed to fetch data:', xhr.statusText);
-    }
-  } catch (err) {
-    // ネットワークエラーやリクエスト中止時のエラーハンドリング
-    console.error('Request failed:', err);
-  }
-}
-
 function createItemTr(item){
   const tr = document.createElement('tr');
   const number = document.createElement('td');
@@ -59,10 +30,7 @@ function createItemTr(item){
   const price = document.createElement('td');
   const count = document.createElement('td');
   const sum = document.createElement('td');
-  number.innerText = "";
-  if (item.number >= 1 && item.number <= 6){
-    number.innerText = item.number;
-  }
+
   displayName.innerText = item.displayName;
   price.innerText = `\\${item.price.toLocaleString()}`
   const inputMinus10 = document.createElement('input');
@@ -73,23 +41,30 @@ function createItemTr(item){
   inputMinus10.type = "button";
   inputMinus10.value = "-10";
   inputMinus10.tabIndex = "-1";
-  inputMinus10.onclick = `changeCount(${item.name},-10)`;
+  inputMinus10.setAttribute('onclick', `changeCount(${item.name},-10)`)
   inputMinus1.type = "button";
   inputMinus1.value = "-1";
   inputMinus1.tabIndex = "-1";
-  inputMinus1.onclick = `changeCount(${item.name},-1)`;
+  inputMinus1.setAttribute('onclick', `changeCount(${item.name},-1)`)
   inputPlus1.type = "button";
   inputPlus1.value = "+1";
   inputPlus1.tabIndex = "-1";
-  inputPlus1.onclick = `changeCount(${item.name},+1)`;
+  inputPlus1.setAttribute('onclick', `changeCount(${item.name},1)`)
   inputPlus10.type = "button";
   inputPlus10.value = "+10";
   inputPlus10.tabIndex = "-1";
-  inputPlus10.onclick = `changeCount(${item.name},+10)`;
+  inputPlus10.setAttribute('onclick', `changeCount(${item.name},10)`)
   inputCount.type = "number";
   inputCount.value = "0";
   inputCount.size = 5;
   inputCount.id = item.name;
+
+  number.innerText = "";
+  if (item.number >= 1 && item.number <= 6){
+    number.innerText = item.number;
+    inputCount.className = `gacha-${item.number}`
+  }
+
   inputCount.onchange = "calc()";
   count.appendChild(inputMinus10);
   count.appendChild(inputMinus1);
@@ -161,14 +136,9 @@ function copySum(){
 } 
 
 function clearValue(){
-  document.getElementById('nyandangoCount').value = 0;
-  document.getElementById('mitarashiCount').value = 0;
-  document.getElementById('goldYoukanCount').value = 0;
-  document.getElementById('taiyakiCount').value = 0;
-  document.getElementById('mattyaCount').value = 0;
-  document.getElementById('kanmisakeCount').value = 0;
-  document.getElementById('moonRabitDaifukuCount').value = 0;
-  document.getElementById('konpeitouCount').value = 0;
+  items.forEach((item)=>{
+    document.getElementById(item.name).value = 0;
+  })
   document.getElementById('delivery').checked = false;
   document.getElementById('kabunushi').checked = false;
   document.getElementById('tenGachaSupportText').value = "";
@@ -287,20 +257,13 @@ function countDigits(inputString) {
 }
 
 function tenGachaSupport() {
-  const nyandangoCount = document.getElementById('nyandangoCount');
-  const mitarashiCount = document.getElementById('mitarashiCount');
-  const goldYoukanCount = document.getElementById('goldYoukanCount');
-  const taiyakiCount = document.getElementById('taiyakiCount');
-  const mattyaCount = document.getElementById('mattyaCount');
-  const kanmisakeCount = document.getElementById('kanmisakeCount');
-  const tenGachaSupportText = document.getElementById('tenGachaSupportText');
   const counts = countDigits(tenGachaSupportText.value);
-  nyandangoCount.value = counts['1'];
-  mitarashiCount.value = counts['2'];
-  goldYoukanCount.value = counts['3'];
-  taiyakiCount.value = counts['4'];
-  mattyaCount.value = counts['5'];
-  kanmisakeCount.value = counts['6'];
+  for (let i = 1; i <= 6; i++){
+    const items = document.getElementsByClassName(`gacha-${i}`);
+    for (let j = 0; j < items.length;j++){
+      items[j].value = counts[`${i}`];
+    }
+  }
   calc();
 }
 
