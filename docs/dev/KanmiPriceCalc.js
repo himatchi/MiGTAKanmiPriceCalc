@@ -43,6 +43,7 @@ function loadItems(){
     if (xhr.status === 200) {
       // レスポンスをJSONとして解析
       items = JSON.parse(xhr.responseText);
+      console.log(items);
     } else {
       // エラーハンドリング
       console.error('Failed to fetch data:', xhr.statusText);
@@ -159,7 +160,7 @@ function copySum(){
   if(loaded){
     navigator.clipboard.writeText(`${allSumValue}`);
   }
-}
+} 
 
 function clearValue(){
   document.getElementById('nyandangoCount').value = 0;
