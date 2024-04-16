@@ -11,7 +11,7 @@
   </head>
 <body>
   <h1>甘味処計算機</h1>
-  <div class="custom-max-width">
+  <div class="custom-max-width custom-min-width">
     <div class="container">
       <div class="col-sm">
         <table class="table table-responsive">
@@ -90,10 +90,10 @@
       <label for="autoCopy">自動コピー</label>
       <input type="checkbox" id="autoCopy" onchange="saveData(); calc()">
 
-    <input type="button" value="コピー" onclick="copySum()">
-    <input type="button" value="クリア" onclick="clearValue()">
-    <input type="button" id="tenGachaButton" value="10連ガチャ値段￥2,000,000 をコピー" onclick="TenGacha()">
-    <input type="button" value="←移動販売時+10%" onclick="TenGachaDelivery()">
+    <button type="button" class="btn btn-primary btn-lg" onclick="copySum()">コピー</button>
+    <button type="button" class="btn btn-danger btn-lg" onclick="clearValue()">クリア</button>
+    <button type="button" class="btn btn-info" onclick="TenGacha()">10連ガチャ値段￥2,000,000 をコピー</button>
+    <button type="button" class="btn btn-info" onclick="TenGachaDelivery()">←移動販売時+10%</button>
     <br>
     <label for="tenGachaSupportText">10連ガチャ入力支援</label>
     <input type="text" id="tenGachaSupportText" placeholder="出目を入力..." maxlength="10" oninput="tenGachaSupport()">
