@@ -1,5 +1,3 @@
-var items = [];
-
 var allSumValue = 0;
 var loaded = false;
 
@@ -307,7 +305,6 @@ function tenGachaSupport() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  loadItems();
   const itemTableBody = document.getElementById('itemTableBody');
   items.forEach( (item)=>{
     itemTableBody.appendChild(createItemTr(item));

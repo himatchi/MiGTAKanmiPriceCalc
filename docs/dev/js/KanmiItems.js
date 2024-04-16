@@ -1,4 +1,4 @@
-[
+var items = [
   {
     "number": 1,
     "name": "nyanDango",
@@ -47,4 +47,4 @@
     "displayName": "金平糖",
     "price": 5000
   }
-]
+];
