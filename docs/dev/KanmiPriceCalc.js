@@ -13,7 +13,8 @@ function isExpiryValid(expiry) {
   const [expiryYear, expiryMonth] = expiry.split('/').map(Number);
 
   // 有効期限が現在の年月と同じか、それより未来かを判定
-  if (expiryYear > currentYear || (expiryYear === currentYear && expiryMonth >= currentMonth)) {         return true;
+  if (expiryYear > currentYear || (expiryYear === currentYear && expiryMonth >= currentMonth)) {
+    return true;
   } else {
     return false;
   }
@@ -59,9 +60,9 @@ function createItemTr(item){
   const price = document.createElement('td');
   const count = document.createElement('td');
   const sum = document.createElement('td');
-  number.value = "";
+  number.innerText = "";
   if (item.number > 0 && item.number <= 6){
-    number.value = item.number;
+    number.innerText = item.number;
   }
   displayName.value = item.displayName;
   price.value = `\\${item.price.toLocaleString}`
@@ -98,6 +99,7 @@ function createItemTr(item){
   count.appendChild(inputPlus10);
   const itemPriceSum = document.createElement('span');
   itemPriceSum.id = `${item.name}-Sum`;
+  itemPriceSum.innerText = "\\0"
   sum.appendChild(itemPriceSum);
   tr.appendChild(number);
   tr.appendChild(displayName);
