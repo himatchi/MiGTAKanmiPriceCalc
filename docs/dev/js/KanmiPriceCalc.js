@@ -32,7 +32,9 @@ function createItemTr(item){
   const sum = document.createElement('td');
 
   displayName.innerText = item.displayName;
+  displayName.className = "text-end";
   price.innerText = `\\${item.price.toLocaleString()}`
+  price.className = "text-end";
   const inputMinus10 = document.createElement('input');
   const inputMinus1 = document.createElement('input');
   const inputPlus1 = document.createElement('input');
@@ -65,7 +67,7 @@ function createItemTr(item){
     inputCount.className = `gacha-${item.number}`
   }
 
-  inputCount.onchange = "calc()";
+  inputCount.setAttribute('onchange',"calc()");
   count.appendChild(inputMinus10);
   count.appendChild(inputMinus1);
   count.appendChild(inputCount);
@@ -75,6 +77,7 @@ function createItemTr(item){
   itemPriceSum.id = `${item.name}-Sum`;
   itemPriceSum.innerText = "\\0"
   sum.appendChild(itemPriceSum);
+  sum.className="text-end";
   tr.appendChild(number);
   tr.appendChild(displayName);
   tr.appendChild(price);
