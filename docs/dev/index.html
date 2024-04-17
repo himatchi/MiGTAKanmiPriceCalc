@@ -95,6 +95,8 @@
     <button type="button" class="btn btn-info" onclick="TenGacha()">10連ガチャ値段￥2,000,000 をコピー</button>
     <button type="button" class="btn btn-info" onclick="TenGachaDelivery()">←移動販売時+10%</button>
     <br>
+    <label for="countInputInvert">カウントボタン反転</label>
+    <input type="checkbox" id="countInputInvert" onchange="rebuildItemTable(); saveData();"><br>
     <label for="tenGachaSupportText">10連ガチャ入力支援</label>
     <input type="text" id="tenGachaSupportText" placeholder="出目を入力..." maxlength="10" oninput="tenGachaSupport()">
     <br><hr><br>

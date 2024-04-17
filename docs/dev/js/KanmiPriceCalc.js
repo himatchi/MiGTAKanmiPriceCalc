@@ -81,11 +81,20 @@ function createItemTr(item){
   }
 
   inputCount.setAttribute('onchange',"calc()");
-  count.appendChild(inputMinus10);
-  count.appendChild(inputMinus1);
-  count.appendChild(inputCount);
-  count.appendChild(inputPlus1);
-  count.appendChild(inputPlus10);
+  const countInputInvert = document.getElementById('countInputInvert').checked;
+  if (countInputInvert){
+    count.appendChild(inputPlus10);
+    count.appendChild(inputPlus1);
+    count.appendChild(inputCount);
+    count.appendChild(inputMinus1);
+    count.appendChild(inputMinus10);
+  } else {
+    count.appendChild(inputMinus10);
+    count.appendChild(inputMinus1);
+    count.appendChild(inputCount);
+    count.appendChild(inputPlus1);
+    count.appendChild(inputPlus10);
+  }
   const itemPriceSum = document.createElement('span');
   itemPriceSum.id = `${item.name}-Sum`;
   itemPriceSum.innerText = "\\0"
@@ -240,9 +249,10 @@ function updateKabunushiView() {
 
 function saveData() {
   const autoCopy = document.getElementById('autoCopy').checked;
+  const countInputInvert = document.getElementById('countInputInvert').checked;
   const kabunushiData = document.getElementById('kabunushiDataSource').value;
-  const data = { autoCopy, kabunushiData};
-
+  const data = { autoCopy, countInputInvert, kabunushiData};
+  
   localStorage.setItem('MiGTAKanmiPriceCalcData', JSON.stringify(data));
 }
 
@@ -251,6 +261,7 @@ function loadData() {
 
   if (data) {
     document.getElementById('autoCopy').checked = data.autoCopy ? data.autoCopy : false;
+    document.getElementById('countInputInvert').checked = data.countInputInvert ? data.countInputInvert : false;
     document.getElementById('kabunushiDataSource').value = data.kabunushiData ? data.kabunushiData : "";
   }
 }
@@ -283,12 +294,17 @@ function tenGachaSupport() {
   calc();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function rebuildItemTable(){
   const itemTableBody = document.getElementById('itemTableBody');
+  itemTableBody.innerHTML = "";
   items.forEach( (item)=>{
     itemTableBody.appendChild(createItemTr(item));
   })
-  loadData()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadData();
+  rebuildItemTable();
   calc();
   const inputField = document.getElementById('tenGachaSupportText');
   inputField.addEventListener('input', function (e) {
