@@ -126,6 +126,7 @@ function calc(){
 
   const deliverySumValue = delivery ? allSumValue * 0.1 : 0;
   deliverySum.innerText = `\\${deliverySumValue.toLocaleString()}`;
+  allSumValue = allSumValue + deliverySumValue;
 
   if (kabunushi) {
     allSumValue = allSumValue / 2;
