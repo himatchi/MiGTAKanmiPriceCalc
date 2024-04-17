@@ -148,9 +148,9 @@ function kabunushiChanged(){
   const tenGachaButton = document.getElementById('tenGachaButton');
   const kabunushi = document.getElementById('kabunushi').checked;
   if (kabunushi){
-    tenGachaButton.value = "10連ガチャ値段￥1,000,000 をコピー"
+    tenGachaButton.innerText = "10連ガチャ値段￥1,000,000 をコピー"
   } else {
-    tenGachaButton.value = "10連ガチャ値段￥2,000,000 をコピー"
+    tenGachaButton.innerText = "10連ガチャ値段￥2,000,000 をコピー"
   }
   calc();
 }
