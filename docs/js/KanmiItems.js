@@ -48,3 +48,5 @@ var items = [
     "price": 5000
   }
 ];
+
+var tenGachaBasePrice = 2000000;

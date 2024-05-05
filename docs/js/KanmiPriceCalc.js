@@ -1,13 +1,3 @@
-var nyandangoSumValue = 0;
-var mitarashiSumValue = 0;
-var goldYoukanSumValue = 0;
-var taiyakiSumValue = 0;
-var mattyaSumValue = 0;
-var kanmisakeSumValue = 0;
-var moonRabitDaifukuSumValue = 0;
-var konpeitouSumValue = 0;
-
-var deliverySumValue = 0;
 var allSumValue = 0;
 var loaded = false;
 
@@ -21,7 +11,8 @@ function isExpiryValid(expiry) {
   const [expiryYear, expiryMonth] = expiry.split('/').map(Number);
 
   // 有効期限が現在の年月と同じか、それより未来かを判定
-  if (expiryYear > currentYear || (expiryYear === currentYear && expiryMonth >= currentMonth)) {         return true;
+  if (expiryYear > currentYear || (expiryYear === currentYear && expiryMonth >= currentMonth)) {
+    return true;
   } else {
     return false;
   }
@@ -32,53 +23,112 @@ function changeCount(target, diff){
   calc();
 }
 
+function createItemTr(item){
+  const tr = document.createElement('tr');
+  const number = document.createElement('td');
+  const displayName = document.createElement('td');
+  const price = document.createElement('td');
+  const count = document.createElement('td');
+  const sum = document.createElement('td');
+
+  displayName.innerText = item.displayName;
+  displayName.classList.add('text-end');
+  price.innerText = `\\${item.price.toLocaleString()}`
+  price.classList.add('text-end');
+  const inputMinus10 = document.createElement('button');
+  const inputMinus1 = document.createElement('button');
+  const inputPlus1 = document.createElement('button');
+  const inputPlus10 = document.createElement('button');
+  const inputCount = document.createElement('input');
+  inputMinus10.type = "button";
+  inputMinus10.classList.add('btn');
+  inputMinus10.classList.add('btn-sm');
+  inputMinus10.classList.add('btn-outline-primary');
+  inputMinus10.innerText = '-10';
+  inputMinus10.tabIndex = "-1";
+  inputMinus10.setAttribute('onclick', `changeCount(${item.name},-10)`)
+  inputMinus1.type = "button";
+  inputMinus1.classList.add('btn');
+  inputMinus1.classList.add('btn-sm');
+  inputMinus1.classList.add('btn-outline-primary');
+  inputMinus1.innerText = '-1';
+  inputMinus1.tabIndex = "-1";
+  inputMinus1.setAttribute('onclick', `changeCount(${item.name},-1)`)
+  inputPlus1.type = "button";
+  inputPlus1.classList.add('btn');
+  inputPlus1.classList.add('btn-sm');
+  inputPlus1.classList.add('btn-outline-primary');
+  inputPlus1.innerText = '+1';
+  inputPlus1.tabIndex = "-1";
+  inputPlus1.setAttribute('onclick', `changeCount(${item.name},1)`)
+  inputPlus10.type = "button";
+  inputPlus10.classList.add('btn');
+  inputPlus10.classList.add('btn-sm');
+  inputPlus10.classList.add('btn-outline-primary');
+  inputPlus10.innerText = '+10';
+  inputPlus10.tabIndex = "-1";
+  inputPlus10.setAttribute('onclick', `changeCount(${item.name},10)`)
+  inputCount.type = "number";
+  inputCount.value = "0";
+  inputCount.classList.add("custom-num-width");
+  inputCount.classList.add('form-control')
+  inputCount.id = item.name;
+
+  number.innerText = "";
+  if (item.number >= 1 && item.number <= 6){
+    number.innerText = item.number;
+    inputCount.classList.add(`gacha-${item.number}`);
+  }
+
+  inputCount.setAttribute('onchange',"calc()");
+  const countInputInvert = document.getElementById('countInputInvert').checked;
+  if (countInputInvert){
+    count.appendChild(inputPlus10);
+    count.appendChild(inputPlus1);
+    count.appendChild(inputCount);
+    count.appendChild(inputMinus1);
+    count.appendChild(inputMinus10);
+  } else {
+    count.appendChild(inputMinus10);
+    count.appendChild(inputMinus1);
+    count.appendChild(inputCount);
+    count.appendChild(inputPlus1);
+    count.appendChild(inputPlus10);
+  }
+  const itemPriceSum = document.createElement('span');
+  itemPriceSum.id = `${item.name}-Sum`;
+  itemPriceSum.innerText = "\\0"
+  sum.appendChild(itemPriceSum);
+  sum.classList.add('text-end');
+  tr.appendChild(number);
+  tr.appendChild(displayName);
+  tr.appendChild(price);
+  tr.appendChild(count);
+  tr.appendChild(sum);
+  return tr;
+}
+
 function calc(){
-  const nyandangoPrice = 150000;
-  const mitarashiPrice = 30000;
-  const goldYoukanPrice = 300000;
-  const taiyakiPrice = 500000;
-  const mattyaPrice = 50000;
-  const kanmisakePrice = 50000;
-  const moonRabitDaifukuPrice = 1000000;
-  const konpeitouPrice = 5000;
-  const nyandangoCount = document.getElementById('nyandangoCount');
-  const mitarashiCount = document.getElementById('mitarashiCount');
-  const goldYoukanCount = document.getElementById('goldYoukanCount');
-  const taiyakiCount = document.getElementById('taiyakiCount');
-  const mattyaCount = document.getElementById('mattyaCount');
-  const kanmisakeCount = document.getElementById('kanmisakeCount');
-  const moonRabitDaifukuCount = document.getElementById('moonRabitDaifukuCount');
-  const konpeitouCount = document.getElementById('konpeitouCount');
-  const nyandangoSum = document.getElementById('nyandangoSum');
-  const mitarashiSum = document.getElementById('mitarashiSum');
-  const goldYoukanSum = document.getElementById('goldYoukanSum');
-  const taiyakiSum = document.getElementById('taiyakiSum');
-  const mattyaSum = document.getElementById('mattyaSum');
-  const kanmisakeSum = document.getElementById('kanmisakeSum');
-  const moonRabitDaifukuSum = document.getElementById('moonRabitDaifukuSum');
-  const konpeitouSum = document.getElementById('konpeitouSum');
+  allSumValue = 0;
+  items.forEach((item)=>{
+    const itemCount = parseInt(document.getElementById(item.name).value);
+    const itemPrice = item.price;
+    const itemSum = document.getElementById(`${item.name}-Sum`);
+    itemSum.innerText = `\\${(itemCount * itemPrice).toLocaleString()}`
+    allSumValue = allSumValue + (itemCount * itemPrice);
+  });
   const delivery = document.getElementById('delivery').checked;
   const deliverySum = document.getElementById('deliverySum');
   const kabunushi = document.getElementById('kabunushi').checked;
   const kabunushiSum = document.getElementById('kabunushiSum');
-  const autoCopy = document.getElementById('autoCopy').checked;
+  const tenin = document.getElementById('tenin').checked;
+  const teninSum = document.getElementById('teninSum');
   const allSum = document.getElementById('allSum');
-  nyandangoSumValue = nyandangoPrice * parseInt(nyandangoCount.value);
-  mitarashiSumValue = mitarashiPrice * parseInt(mitarashiCount.value);
-  goldYoukanSumValue = goldYoukanPrice * parseInt(goldYoukanCount.value);
-  taiyakiSumValue = taiyakiPrice * parseInt(taiyakiCount.value);
-  mattyaSumValue = mattyaPrice * parseInt(mattyaCount.value);
-  kanmisakeSumValue = kanmisakePrice * parseInt(kanmisakeCount.value);
-  moonRabitDaifukuSumValue = moonRabitDaifukuPrice * parseInt(moonRabitDaifukuCount.value);
-  konpeitouSumValue = konpeitouPrice * parseInt(konpeitouCount.value);
+  const autoCopy = document.getElementById('autoCopy').checked;
 
-  if (delivery) {
-    deliverySumValue = (nyandangoSumValue + mitarashiSumValue + goldYoukanSumValue + taiyakiSumValue + mattyaSumValue + kanmisakeSumValue + moonRabitDaifukuSumValue + konpeitouSumValue) * 0.1;
-  } else {
-    deliverySumValue = 0;
-  }
-
-  allSumValue = nyandangoSumValue + mitarashiSumValue + goldYoukanSumValue + taiyakiSumValue + mattyaSumValue + deliverySumValue + kanmisakeSumValue + moonRabitDaifukuSumValue + konpeitouSumValue;
+  const deliverySumValue = delivery ? allSumValue * 0.1 : 0;
+  deliverySum.innerText = `\\${deliverySumValue.toLocaleString()}`;
+  allSumValue = allSumValue + deliverySumValue;
 
   if (kabunushi) {
     allSumValue = allSumValue / 2;
@@ -89,15 +139,16 @@ function calc(){
     kabunushiSum.style = "color:#000000;";
   }
 
-  nyandangoSum.innerText = `¥${nyandangoSumValue.toLocaleString()}`;
-  mitarashiSum.innerText = `¥${mitarashiSumValue.toLocaleString()}`;
-  goldYoukanSum.innerText = `¥${goldYoukanSumValue.toLocaleString()}`;
-  taiyakiSum.innerText = `¥${taiyakiSumValue.toLocaleString()}`;
-  mattyaSum.innerText = `¥${mattyaSumValue.toLocaleString()}`;
-  kanmisakeSum.innerText = `¥${kanmisakeSumValue.toLocaleString()}`;
-  moonRabitDaifukuSum.innerText = `¥${moonRabitDaifukuSumValue.toLocaleString()}`;
-  konpeitouSum.innerText = `¥${konpeitouSumValue.toLocaleString()}`;
-  deliverySum.innerText = `¥${deliverySumValue.toLocaleString()}`;
+
+  if (tenin) {
+    allSumValue = allSumValue / 2;
+    teninSum.innerText = `-¥${allSumValue.toLocaleString()}`;
+    teninSum.style = "color:#ea0000;";
+  } else {
+    teninSum.innerText = "¥0";
+    teninSum.style = "color:#000000;";
+  }
+
   allSum.innerText = `¥${allSumValue.toLocaleString()}`;
 
   if(autoCopy){
@@ -105,14 +156,29 @@ function calc(){
   }
 }
 
-function kabunushiChanged(){
-  const tenGachaButton = document.getElementById('tenGachaButton');
+function getTenGachaPrice(){
   const kabunushi = document.getElementById('kabunushi').checked;
-  if (kabunushi){
-    tenGachaButton.value = "10連ガチャ値段￥1,000,000 をコピー"
-  } else {
-    tenGachaButton.value = "10連ガチャ値段￥2,000,000 をコピー"
+  const tenin = document.getElementById('tenin').checked;
+  const delivery = document.getElementById('delivery').checked;
+
+  let price = tenGachaBasePrice;
+
+  if (delivery){
+    price = price * 1.1;
   }
+
+  if (kabunushi){
+    price = price / 2;
+  }
+
+  if (tenin){
+    price = price / 2;
+  }
+  return price;
+}
+
+function gachaPriceChanged(){
+  tenGachaButton.innerText = `10連ガチャ値段￥${getTenGachaPrice().toLocaleString()} をコピー`
   calc();
 }
 
@@ -120,17 +186,12 @@ function copySum(){
   if(loaded){
     navigator.clipboard.writeText(`${allSumValue}`);
   }
-}
+} 
 
 function clearValue(){
-  document.getElementById('nyandangoCount').value = 0;
-  document.getElementById('mitarashiCount').value = 0;
-  document.getElementById('goldYoukanCount').value = 0;
-  document.getElementById('taiyakiCount').value = 0;
-  document.getElementById('mattyaCount').value = 0;
-  document.getElementById('kanmisakeCount').value = 0;
-  document.getElementById('moonRabitDaifukuCount').value = 0;
-  document.getElementById('konpeitouCount').value = 0;
+  items.forEach((item)=>{
+    document.getElementById(item.name).value = 0;
+  })
   document.getElementById('delivery').checked = false;
   document.getElementById('kabunushi').checked = false;
   document.getElementById('tenGachaSupportText').value = "";
@@ -138,22 +199,8 @@ function clearValue(){
   calc();
 }
 
-function TenGacha(){
-  const kabunushi = document.getElementById('kabunushi').checked;
-  if (kabunushi){
-    navigator.clipboard.writeText('1000000');
-  } else {
-    navigator.clipboard.writeText('2000000');
-  }
-}
-
-function TenGachaDelivery(){
-  const kabunushi = document.getElementById('kabunushi').checked;
-  if (kabunushi){
-    navigator.clipboard.writeText('1100000');
-  } else {
-    navigator.clipboard.writeText('2200000');
-  }
+function tenGacha(){
+  navigator.clipboard.writeText(getTenGachaPrice());
 }
 
 function toggleShowKabunushiDataSource() {
@@ -216,9 +263,10 @@ function updateKabunushiView() {
 
 function saveData() {
   const autoCopy = document.getElementById('autoCopy').checked;
+  const countInputInvert = document.getElementById('countInputInvert').checked;
   const kabunushiData = document.getElementById('kabunushiDataSource').value;
-  const data = { autoCopy, kabunushiData};
-
+  const data = { autoCopy, countInputInvert, kabunushiData};
+  
   localStorage.setItem('MiGTAKanmiPriceCalcData', JSON.stringify(data));
 }
 
@@ -227,6 +275,7 @@ function loadData() {
 
   if (data) {
     document.getElementById('autoCopy').checked = data.autoCopy ? data.autoCopy : false;
+    document.getElementById('countInputInvert').checked = data.countInputInvert ? data.countInputInvert : false;
     document.getElementById('kabunushiDataSource').value = data.kabunushiData ? data.kabunushiData : "";
   }
 }
@@ -249,25 +298,27 @@ function countDigits(inputString) {
 }
 
 function tenGachaSupport() {
-  const nyandangoCount = document.getElementById('nyandangoCount');
-  const mitarashiCount = document.getElementById('mitarashiCount');
-  const goldYoukanCount = document.getElementById('goldYoukanCount');
-  const taiyakiCount = document.getElementById('taiyakiCount');
-  const mattyaCount = document.getElementById('mattyaCount');
-  const kanmisakeCount = document.getElementById('kanmisakeCount');
-  const tenGachaSupportText = document.getElementById('tenGachaSupportText');
   const counts = countDigits(tenGachaSupportText.value);
-  nyandangoCount.value = counts['1'];
-  mitarashiCount.value = counts['2'];
-  goldYoukanCount.value = counts['3'];
-  taiyakiCount.value = counts['4'];
-  mattyaCount.value = counts['5'];
-  kanmisakeCount.value = counts['6'];
+  for (let i = 1; i <= 6; i++){
+    const items = document.getElementsByClassName(`gacha-${i}`);
+    for (let j = 0; j < items.length;j++){
+      items[j].value = counts[`${i}`];
+    }
+  }
   calc();
 }
 
+function rebuildItemTable(){
+  const itemTableBody = document.getElementById('itemTableBody');
+  itemTableBody.innerHTML = "";
+  items.forEach( (item)=>{
+    itemTableBody.appendChild(createItemTr(item));
+  })
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  loadData()
+  loadData();
+  rebuildItemTable();
   calc();
   const inputField = document.getElementById('tenGachaSupportText');
   inputField.addEventListener('input', function (e) {
@@ -277,5 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
       this.value = this.value.replace(/[^1-6]/g, '');
     }
   });
+
   loaded = true;
 });
