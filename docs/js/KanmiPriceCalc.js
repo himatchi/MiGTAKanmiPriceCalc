@@ -324,7 +324,7 @@ function rebuildItemTable(){
 document.addEventListener('DOMContentLoaded', function() {
   loadData();
   rebuildItemTable();
-  calc();
+  gachaPriceChanged();
   const inputField = document.getElementById('tenGachaSupportText');
   inputField.addEventListener('input', function (e) {
     // 入力された値が1から6の範囲の数字のみかどうかをチェック
