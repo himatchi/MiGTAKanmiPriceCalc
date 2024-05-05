@@ -1,3 +1,8 @@
+/*
+MiGTA Kanmi Price Calc is licensed under the MIT License
+Copyright (c) 2024 himatchi
+See also https://github.com/himatchi/MiGTAKanmiPriceCalc/blob/main/LICENSE
+*/
 var allSumValue = 0;
 var loaded = false;
 
