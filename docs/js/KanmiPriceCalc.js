@@ -199,9 +199,10 @@ function clearValue(){
   })
   document.getElementById('delivery').checked = false;
   document.getElementById('kabunushi').checked = false;
+  document.getElementById('tenin').checked = false;
   document.getElementById('tenGachaSupportText').value = "";
   document.getElementById('kabunushiSearchBox').value = "";
-  calc();
+  gachaPriceChanged();
 }
 
 function tenGacha(){
