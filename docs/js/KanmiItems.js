@@ -52,6 +52,18 @@ var items = [
     "name": "coffeeMilk",
     "displayName": "珈琲牛乳",
     "price": 50000
+  },
+  {
+    "number": [],
+    "name": "tenGachaSweet",
+    "displayName": "10連ｶﾞﾁｬ(和菓子)",
+    "price": 2000000
+  },
+  {
+    "number": [],
+    "name": "tenGachaDrink",
+    "displayName": "10連ｶﾞﾁｬ(飲み物)",
+    "price": 1000000
   }
 ];
 
