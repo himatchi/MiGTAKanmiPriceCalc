@@ -80,10 +80,11 @@ function createItemTr(item){
   inputCount.id = item.name;
 
   number.innerText = "";
-  if (item.number >= 1 && item.number <= 6){
-    number.innerText = item.number;
-    inputCount.classList.add(`gacha-${item.number}`);
-  }
+  item.number.forEach((num)=>{
+    number.innerText += num
+    inputCount.classList.add(`gacha-${num}`);
+    inputCount.classList.add(`gacha-${num.charAt(0)}`);
+  })
 
   inputCount.setAttribute('onchange',"calc()");
   const countInputInvert = document.getElementById('countInputInvert').checked;
@@ -201,6 +202,7 @@ function clearValue(){
   document.getElementById('kabunushi').checked = false;
   document.getElementById('tenin').checked = false;
   document.getElementById('tenGachaSupportText').value = "";
+  document.getElementById('tenGachaSupportText2').value = "";
   document.getElementById('kabunushiSearchBox').value = "";
   gachaPriceChanged();
 }
@@ -303,12 +305,16 @@ function countDigits(inputString) {
   return counts;
 }
 
-function tenGachaSupport() {
-  const counts = countDigits(tenGachaSupportText.value);
+function tenGachaSupport(call,prefix) {
+  const initCtl = document.getElementsByClassName(`gacha-${prefix}`);
+  for (let i = 0; i < initCtl.length;i++){
+    initCtl[i].value = 0;
+  }
+  const counts = countDigits(call.value);
   for (let i = 1; i <= 6; i++){
-    const items = document.getElementsByClassName(`gacha-${i}`);
+    const items = document.getElementsByClassName(`gacha-${prefix}${i}`);
     for (let j = 0; j < items.length;j++){
-      items[j].value = counts[`${i}`];
+      items[j].value = parseInt(items[j].value) + counts[`${i}`];
     }
   }
   calc();
@@ -327,6 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
   rebuildItemTable();
   gachaPriceChanged();
   const inputField = document.getElementById('tenGachaSupportText');
+  const inputField2 = document.getElementById('tenGachaSupportText2');
   inputField.addEventListener('input', function (e) {
     // 入力された値が1から6の範囲の数字のみかどうかをチェック
     if (this.value.match(/[^1-6]/g)) {
@@ -334,6 +341,12 @@ document.addEventListener('DOMContentLoaded', function() {
       this.value = this.value.replace(/[^1-6]/g, '');
     }
   });
-
+  inputField2.addEventListener('input', function (e) {
+    // 入力された値が1から6の範囲の数字のみかどうかをチェック
+    if (this.value.match(/[^1-6]/g)) {
+      // 不適切な文字が含まれている場合は、それらを削除
+      this.value = this.value.replace(/[^1-6]/g, '');
+    }
+  });
   loaded = true;
 });

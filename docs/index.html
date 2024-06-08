@@ -115,8 +115,11 @@
     <input type="checkbox" id="autoCopy" onchange="saveData(); calc()">
     <label for="countInputInvert">カウントボタン反転</label>
     <input type="checkbox" id="countInputInvert" onchange="rebuildItemTable(); saveData();"><br>
-    <label for="tenGachaSupportText">10連ガチャ入力支援</label>
-    <input type="text" id="tenGachaSupportText" placeholder="出目を入力..." maxlength="10" oninput="tenGachaSupport()">
+    <label for="tenGachaSupportText">10連ガチャ入力支援(和菓子)</label>
+    <input type="text" id="tenGachaSupportText" placeholder="出目を入力..." maxlength="10" oninput="tenGachaSupport(this,'和')">
+    <br>
+    <label for="tenGachaSupportText2">10連ガチャ入力支援(飲み物)</label>
+    <input type="text" id="tenGachaSupportText2" placeholder="出目を入力..." maxlength="10" oninput="tenGachaSupport(this,'飲')">
     <br><hr><br>
     <input type="text" id="kabunushiSearchBox" placeholder="株主検索..." oninput="updateKabunushiView()">
     <table id="kabunushiTable"></table><br>
