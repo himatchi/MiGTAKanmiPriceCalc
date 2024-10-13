@@ -1,0 +1,19 @@
+body {
+  touch-action: manipulation;
+}
+
+.custom-max-width {
+  max-width: 800px;
+}
+.custom-sum-width {
+  min-width: 100px;
+}
+
+.custom-count-width {
+  min-width: 250px;
+}
+
+.custom-num-width {
+  width: 100px;
+  display: inline;
+}
